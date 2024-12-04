@@ -1,6 +1,8 @@
 package com.bookstore.app.validation;
 
 import com.bookstore.app.domain.BookPageInputDto;
+import com.bookstore.app.domain.CartItemInputDto;
+import com.bookstore.app.domain.CheckOutInputDto;
 import com.bookstore.app.domain.RegisterInputDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -11,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -321,5 +326,95 @@ public class ValidationTest {
         assertFalse(violations.isEmpty());
         assertEquals(violations.size(), 1);
         assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
+    }
+
+    @Test
+    public void testCartItemInputDto() {
+        CartItemInputDto cartItemInputDto = CartItemInputDto.builder()
+                .quantity(new BigDecimal(7))
+                .bookId(UUID.randomUUID())
+                .build();
+        Set<ConstraintViolation<CartItemInputDto>> violations = validator.validate(cartItemInputDto);
+        assertTrue(violations.isEmpty());
+
+        //quantity null
+        cartItemInputDto.setQuantity(null);
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Quantity can not be null");
+
+        //quantity lower than zero
+        cartItemInputDto.setQuantity(BigDecimal.valueOf(-2));
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Quantity cannot be neither negative nor zero");
+
+        //quantity equals to zero
+        cartItemInputDto.setQuantity(BigDecimal.valueOf(0));
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Quantity cannot be neither negative nor zero");
+
+        //quantity with 4 digits
+        cartItemInputDto.setQuantity(BigDecimal.valueOf(6543));
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Wrong format of quantity: only 3 digit " +
+                "are allowed(not decimals)");
+
+        //quantity with decimals
+        cartItemInputDto.setQuantity(BigDecimal.valueOf(1.6));
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Wrong format of quantity: only 3 digit " +
+                "are allowed(not decimals)");
+
+        cartItemInputDto.setQuantity(BigDecimal.valueOf(1));
+
+        //bookId null
+        cartItemInputDto.setBookId(null);
+        violations = validator.validate(cartItemInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "BookId can not be null");
+    }
+
+    @Test
+    public void testCheckOutInputDto() {
+        CheckOutInputDto checkOutInputDto = CheckOutInputDto.builder()
+                .cartItemInputList(List.of(CartItemInputDto.builder()
+                        .bookId(UUID.randomUUID())
+                        .quantity(BigDecimal.valueOf(5))
+                        .build()))
+                .orderPrice(45.45)
+                .build();
+        Set<ConstraintViolation<CheckOutInputDto>> violations = validator.validate(checkOutInputDto);
+        assertTrue(violations.isEmpty());
+
+        //orderPrice equals to zero
+        checkOutInputDto.setOrderPrice(0);
+        violations = validator.validate(checkOutInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "The price cannot be neither negative nor zero");
+
+        //orderPrice lower than zero
+        checkOutInputDto.setOrderPrice(-4.5);
+        violations = validator.validate(checkOutInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "The price cannot be neither negative nor zero");
+
+        //orderPrice with 3 decimals
+        checkOutInputDto.setOrderPrice(987654.356);
+        violations = validator.validate(checkOutInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Wrong format of price");
+
+        checkOutInputDto.setOrderPrice(987);
+
+        //cartItemInputList empty
+        checkOutInputDto.setCartItemInputList(new ArrayList<>());
+        violations = validator.validate(checkOutInputDto);
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "The cartItemInputList cannot be empty");
+
     }
 }

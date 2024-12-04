@@ -1,15 +1,12 @@
 package com.bookstore.app.mapper;
 
 import com.bookstore.app.business.*;
-import com.bookstore.app.domain.BookPageDto;
-import com.bookstore.app.domain.BookPageInputDto;
-import com.bookstore.app.domain.RegisterInputDto;
-import com.bookstore.app.domain.UserDto;
-import com.bookstore.app.entity.UserEntity;
+import com.bookstore.app.domain.*;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -153,5 +150,75 @@ public class DomainMapperTest {
         assertEquals(registerInputBusiness.getLastName(), registerInputDto.getLastName());
         assertNotNull(registerInputBusiness.getPassword());
         assertEquals(registerInputBusiness.getPassword(), registerInputDto.getPassword());
+    }
+
+    @Test
+    public void toCartItemInputBusinessTest_NullValue() {
+        assertNull(domainMapper.toCartItemInputBusiness(null));
+    }
+
+    @Test
+    public void toCartItemInputBusinessTest_NotNullValue1() {
+        CartItemInputBusiness cartItemInputBusiness = domainMapper.toCartItemInputBusiness(CartItemInputDto.builder()
+                .build());
+        assertNotNull(cartItemInputBusiness);
+        assertEquals(cartItemInputBusiness.getQuantity(), 0);
+        assertNull(cartItemInputBusiness.getBookId());
+    }
+
+    @Test
+    public void toCartItemInputBusinessTest_NotNullValue2() {
+        CartItemInputDto cartItemInputDto = CartItemInputDto.builder()
+                .bookId(UUID.randomUUID())
+                .quantity(new BigDecimal(5))
+                .build();
+        CartItemInputBusiness cartItemInputBusiness = domainMapper.toCartItemInputBusiness(cartItemInputDto);
+        assertNotNull(cartItemInputBusiness);
+        assertEquals(cartItemInputBusiness.getQuantity(), cartItemInputDto.getQuantity().intValue());
+        assertNotNull(cartItemInputBusiness.getBookId());
+        assertEquals(cartItemInputBusiness.getBookId(), cartItemInputDto.getBookId());
+    }
+
+    @Test
+    public void toCheckOutInputBusiness_NullValue() {
+        assertNull(domainMapper.toCheckOutInputBusiness(null));
+    }
+
+    @Test
+    public void toCheckOutInputBusiness_NotNullValue1() {
+        CheckOutInputBusiness checkOutInputBusiness = domainMapper.toCheckOutInputBusiness(CheckOutInputDto.builder()
+                .build());
+        assertNotNull(checkOutInputBusiness);
+        assertEquals(checkOutInputBusiness.getOrderPrice(), 0.0);
+        assertNull(checkOutInputBusiness.getCartItemInputList());
+    }
+
+    @Test
+    public void toCheckOutInputBusiness_NotNullValue2() {
+        CheckOutInputDto checkOutInputDto = CheckOutInputDto.builder()
+                .orderPrice(56.34)
+                .cartItemInputList(new ArrayList<>())
+                .build();
+        CheckOutInputBusiness checkOutInputBusiness = domainMapper.toCheckOutInputBusiness(checkOutInputDto);
+        assertNotNull(checkOutInputBusiness);
+        assertEquals(checkOutInputBusiness.getOrderPrice(), checkOutInputDto.getOrderPrice());
+        assertNotNull(checkOutInputBusiness.getCartItemInputList());
+        assertThat(checkOutInputBusiness.getCartItemInputList()).isEmpty();
+    }
+
+    @Test
+    public void toCheckOutInputBusiness_NotNullValue3() {
+        CartItemInputDto cartItemInputDto = mock(CartItemInputDto.class);
+        CheckOutInputDto checkOutInputDto = CheckOutInputDto.builder()
+                .orderPrice(56.34)
+                .cartItemInputList(List.of(cartItemInputDto))
+                .build();
+        CheckOutInputBusiness checkOutInputBusiness = domainMapper.toCheckOutInputBusiness(checkOutInputDto);
+        assertNotNull(checkOutInputBusiness);
+        assertEquals(checkOutInputBusiness.getOrderPrice(), checkOutInputDto.getOrderPrice());
+        assertNotNull(checkOutInputBusiness.getCartItemInputList());
+        assertThat(checkOutInputBusiness.getCartItemInputList()).isNotEmpty();
+        assertEquals(checkOutInputBusiness.getCartItemInputList().size(), checkOutInputDto.getCartItemInputList()
+                .size());
     }
 }
