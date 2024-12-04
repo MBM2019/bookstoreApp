@@ -4,5 +4,5 @@ import com.bookstore.app.business.CheckOutInputBusiness;
 
 public interface CheckOutService {
 
-    public void checkout(CheckOutInputBusiness checkOutInputBusiness);
+    void checkout(CheckOutInputBusiness checkOutInputBusiness);
 }

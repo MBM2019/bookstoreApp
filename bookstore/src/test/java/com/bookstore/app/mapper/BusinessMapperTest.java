@@ -40,7 +40,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookBusinessTest_NotNullValue2() {
-
         BookEntity bookEntity = mock(BookEntity.class);
         when(bookEntity.getBookPrice()).thenReturn(25.57);
         UUID id = UUID.randomUUID();
@@ -58,7 +57,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookBusinessTest_AuthorNotNull1() {
-
         BookEntity bookEntity = mock(BookEntity.class);
         AuthorEntity authorEntity = mock(AuthorEntity.class);
         when(bookEntity.getAuthor()).thenReturn(authorEntity);
@@ -69,7 +67,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookBusinessTest_AuthorNotNull2() {
-
         BookEntity bookEntity = mock(BookEntity.class);
         AuthorEntity authorEntity = mock(AuthorEntity.class);
         when(bookEntity.getAuthor()).thenReturn(authorEntity);
@@ -82,7 +79,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookBusinessTest_AuthorNotNull3() {
-
         BookEntity bookEntity = mock(BookEntity.class);
         AuthorEntity authorEntity = mock(AuthorEntity.class);
         when(bookEntity.getAuthor()).thenReturn(authorEntity);
@@ -94,7 +90,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookBusinessTest_AuthorNotNull4() {
-
         BookEntity bookEntity = mock(BookEntity.class);
         AuthorEntity authorEntity = mock(AuthorEntity.class);
         when(bookEntity.getAuthor()).thenReturn(authorEntity);
@@ -114,7 +109,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookPageBusiness_EmptyList()  {
-
         Page<BookEntity> page = new PageImpl<>(Collections.emptyList(), PageRequest.of(0, 5, Sort
                 .by("title").ascending()), 10);
         BookPageBusiness bookPageBusiness = businessMapper.toBookPageBusiness(page);
@@ -129,7 +123,6 @@ public class BusinessMapperTest {
 
     @Test
     public void toBookPageBusiness_NotEmptyList()  {
-
         BookEntity bookEntity1 = mock(BookEntity.class), bookEntity2 = mock(BookEntity.class);
         Page<BookEntity> bookEntityPage = new PageImpl<>(List.of(bookEntity1, bookEntity2), PageRequest.of(0,
                 5, Sort.by("title").ascending()), 10);

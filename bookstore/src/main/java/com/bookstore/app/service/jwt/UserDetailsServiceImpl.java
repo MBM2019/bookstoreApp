@@ -1,8 +1,6 @@
 package com.bookstore.app.service.jwt;
 
-import com.bookstore.app.business.UserBusiness;
 import com.bookstore.app.entity.UserEntity;
-import com.bookstore.app.mapper.BusinessMapper;
 import com.bookstore.app.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

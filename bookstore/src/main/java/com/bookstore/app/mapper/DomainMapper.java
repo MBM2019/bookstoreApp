@@ -3,7 +3,6 @@ package com.bookstore.app.mapper;
 import com.bookstore.app.business.*;
 import com.bookstore.app.domain.*;
 import org.mapstruct.*;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 

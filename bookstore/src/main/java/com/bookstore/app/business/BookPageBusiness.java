@@ -13,5 +13,5 @@ public class BookPageBusiness {
     private int pageSize;
     private int total;
     private int totalPages;
-    List<BookBusiness> content;
+    private List<BookBusiness> content;
 }

@@ -5,5 +5,5 @@ import com.bookstore.app.business.BookPageInputBusiness;
 
 public interface BookService {
 
-    public BookPageBusiness retrieveBooksPage(BookPageInputBusiness bookPageInputBusiness);
+    BookPageBusiness retrieveBooksPage(BookPageInputBusiness bookPageInputBusiness);
 }

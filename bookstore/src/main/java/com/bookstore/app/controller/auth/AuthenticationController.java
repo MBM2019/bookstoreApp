@@ -32,12 +32,9 @@ public class AuthenticationController {
                 new UsernamePasswordAuthenticationToken(
                         jwtTokenRequest.email(),
                         jwtTokenRequest.password());
-
         var authentication =
                 authenticationManager.authenticate(authenticationToken);
-
         var token = tokenService.generateToken(authentication);
-
         return ResponseEntity.ok(new JwtTokenResponse(token));
     }
 }
