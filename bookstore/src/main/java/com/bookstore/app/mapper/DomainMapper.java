@@ -34,11 +34,11 @@ public interface DomainMapper {
         builder.pageNumber(mapPageNumber(bookPageInputDto.getPageNumber()));
     }
 
+    RegisterInputBusiness toRegisterInputBusiness(RegisterInputDto registerInputDto);
+
+    UserDto toUserDto(UserBusiness userBusiness);
+
     private static int mapPageNumber(BigDecimal pageNumber) {
         return pageNumber.intValue() - 1;
     }
-
-    RegisterInputBusiness toSignUpInputBusiness(RegisterInputDto registerInputDto);
-
-    UserDto toUserDto(UserBusiness userBusiness);
 }

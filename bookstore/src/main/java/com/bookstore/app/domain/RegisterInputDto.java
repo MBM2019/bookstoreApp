@@ -1,8 +1,6 @@
 package com.bookstore.app.domain;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
@@ -21,6 +19,7 @@ public class RegisterInputDto {
     private String email;
     @NotBlank(message = "Password can not be null, empty or blank")
     @Pattern(message = "Password format is not valid", regexp = "^(?:(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*)[^\\s]{8,}$")
+    @Size(max = 20, message = "The maximum size for the password is 20 characters")
     private String password;
 
 }

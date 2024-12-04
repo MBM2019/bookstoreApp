@@ -2,8 +2,10 @@ package com.bookstore.app.mapper;
 
 import com.bookstore.app.business.BookBusiness;
 import com.bookstore.app.business.BookPageBusiness;
+import com.bookstore.app.business.UserBusiness;
 import com.bookstore.app.entity.AuthorEntity;
 import com.bookstore.app.entity.BookEntity;
+import com.bookstore.app.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.*;
@@ -136,5 +138,35 @@ public class BusinessMapperTest {
         assertNotNull(bookPageBusiness.getContent());
         assertThat(bookPageBusiness.getContent()).isNotEmpty();
         assertEquals(bookPageBusiness.getContent().size(), bookEntityPage.getContent().size());
+    }
+
+    @Test
+    public void toUserBusiness_NullValue() {
+        assertNull(businessMapper.toUserBusiness(null));
+    }
+
+    @Test
+    public void toUserBusiness_NotNullValue1() {
+        UserBusiness userBusiness = businessMapper.toUserBusiness(new UserEntity());
+        assertNotNull(userBusiness);
+        assertNull(userBusiness.getEmail());
+        assertNull(userBusiness.getFirstName());
+        assertNull(userBusiness.getLastName());
+    }
+
+    @Test
+    public void toUserBusiness_NotNullValue2() {
+        UserEntity userEntity = mock(UserEntity.class);
+        when(userEntity.getEmail()).thenReturn("fred@hyt.com");
+        when(userEntity.getFirstName()).thenReturn("Fred");
+        when(userEntity.getLastName()).thenReturn("Hyton");
+        UserBusiness userBusiness = businessMapper.toUserBusiness(userEntity);
+        assertNotNull(userBusiness);
+        assertNotNull(userBusiness.getEmail());
+        assertEquals(userBusiness.getEmail(), userEntity.getEmail());
+        assertNotNull(userBusiness.getFirstName());
+        assertEquals(userBusiness.getFirstName(), userEntity.getFirstName());
+        assertNotNull(userBusiness.getLastName());
+        assertEquals(userBusiness.getLastName(), userEntity.getLastName());
     }
 }

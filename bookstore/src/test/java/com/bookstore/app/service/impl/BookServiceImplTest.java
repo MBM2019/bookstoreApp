@@ -1,11 +1,10 @@
-package com.bookstore.app.service;
+package com.bookstore.app.service.impl;
 
 import com.bookstore.app.business.BookPageInputBusiness;
 import com.bookstore.app.entity.BookEntity;
 import com.bookstore.app.mapper.BusinessMapper;
 import com.bookstore.app.mapper.BusinessMapperImpl;
 import com.bookstore.app.repository.BookRepository;
-import com.bookstore.app.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

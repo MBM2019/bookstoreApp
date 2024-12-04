@@ -30,7 +30,7 @@ public class RegisterController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterInputDto registerInputDto) {
-        UserDto createdUser = domainMapper.toUserDto(authService.createUser(domainMapper.toSignUpInputBusiness(
+        UserDto createdUser = domainMapper.toUserDto(authService.createUser(domainMapper.toRegisterInputBusiness(
                 registerInputDto)));
         if (createdUser == null){
             throw new UserNotCreatedException("The user has not been created due some technical problems, try again " +

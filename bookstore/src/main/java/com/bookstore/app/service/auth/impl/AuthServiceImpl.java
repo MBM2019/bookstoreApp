@@ -7,6 +7,7 @@ import com.bookstore.app.exception.ExistingUsernameException;
 import com.bookstore.app.mapper.BusinessMapper;
 import com.bookstore.app.repository.UserRepository;
 import com.bookstore.app.service.auth.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class AuthServiceImpl implements AuthService {
     private final BusinessMapper businessMapper;
 
     @Override
+    @Transactional
     public UserBusiness createUser(RegisterInputBusiness registerInputBusiness) {
         if (userRepository.findFirstByEmail(registerInputBusiness.getEmail()) != null) {
             throw new ExistingUsernameException(String.format("The username %s already exists",

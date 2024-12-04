@@ -1,10 +1,11 @@
 package com.bookstore.app.mapper;
 
-import com.bookstore.app.business.BookBusiness;
-import com.bookstore.app.business.BookPageBusiness;
-import com.bookstore.app.business.BookPageInputBusiness;
+import com.bookstore.app.business.*;
 import com.bookstore.app.domain.BookPageDto;
 import com.bookstore.app.domain.BookPageInputDto;
+import com.bookstore.app.domain.RegisterInputDto;
+import com.bookstore.app.domain.UserDto;
+import com.bookstore.app.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -15,6 +16,8 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DomainMapperTest {
 
@@ -85,5 +88,70 @@ public class DomainMapperTest {
         BookPageInputBusiness bookPageInputBusiness = domainMapper.toBookPageInputBusiness(bookPageInputDto);
         assertEquals(bookPageInputBusiness.getPageNumber(), 0);
         assertEquals(bookPageInputBusiness.getPageSize(), bookPageInputDto.getPageSize().intValue());
+    }
+
+    @Test
+    public void toUserDto_NullValue() {
+        assertNull(domainMapper.toUserDto(null));
+    }
+
+    @Test
+    public void toUserDto_NotNullValue1() {
+        UserDto userDto = domainMapper.toUserDto(UserBusiness.builder().build());
+        assertNotNull(userDto);
+        assertNull(userDto.getEmail());
+        assertNull(userDto.getFirstName());
+        assertNull(userDto.getLastName());
+    }
+
+    @Test
+    public void toUserDto_NotNullValue2() {
+        UserBusiness userEntity = mock(UserBusiness.class);
+        when(userEntity.getEmail()).thenReturn("fred@hyt.com");
+        when(userEntity.getFirstName()).thenReturn("Fred");
+        when(userEntity.getLastName()).thenReturn("Hyton");
+        UserDto userDto = domainMapper.toUserDto(userEntity);
+        assertNotNull(userDto);
+        assertNotNull(userDto.getEmail());
+        assertEquals(userDto.getEmail(), userEntity.getEmail());
+        assertNotNull(userDto.getFirstName());
+        assertEquals(userDto.getFirstName(), userEntity.getFirstName());
+        assertNotNull(userDto.getLastName());
+        assertEquals(userDto.getLastName(), userEntity.getLastName());
+    }
+
+    @Test
+    public void toRegisterInputBusiness_NullValue() {
+        assertNull(domainMapper.toRegisterInputBusiness(null));
+    }
+
+    @Test
+    public void toRegisterInputBusiness_NotNullValue1() {
+        RegisterInputBusiness registerInputBusiness = domainMapper.toRegisterInputBusiness(RegisterInputDto.builder()
+                .build());
+        assertNotNull(registerInputBusiness);
+        assertNull(registerInputBusiness.getEmail());
+        assertNull(registerInputBusiness.getFirstName());
+        assertNull(registerInputBusiness.getLastName());
+        assertNull(registerInputBusiness.getPassword());
+    }
+
+    @Test
+    public void toRegisterInputBusiness_NotNullValue2() {
+        RegisterInputDto registerInputDto = mock(RegisterInputDto.class);
+        when(registerInputDto.getEmail()).thenReturn("fred@hyt.com");
+        when(registerInputDto.getFirstName()).thenReturn("Fred");
+        when(registerInputDto.getLastName()).thenReturn("Hyton");
+        when(registerInputDto.getPassword()).thenReturn("Kfrt2349%");
+        RegisterInputBusiness registerInputBusiness = domainMapper.toRegisterInputBusiness(registerInputDto);
+        assertNotNull(registerInputBusiness);
+        assertNotNull(registerInputBusiness.getEmail());
+        assertEquals(registerInputBusiness.getEmail(), registerInputDto.getEmail());
+        assertNotNull(registerInputBusiness.getFirstName());
+        assertEquals(registerInputBusiness.getFirstName(), registerInputDto.getFirstName());
+        assertNotNull(registerInputBusiness.getLastName());
+        assertEquals(registerInputBusiness.getLastName(), registerInputDto.getLastName());
+        assertNotNull(registerInputBusiness.getPassword());
+        assertEquals(registerInputBusiness.getPassword(), registerInputDto.getPassword());
     }
 }

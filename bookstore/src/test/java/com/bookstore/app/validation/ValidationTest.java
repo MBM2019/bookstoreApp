@@ -1,6 +1,7 @@
 package com.bookstore.app.validation;
 
 import com.bookstore.app.domain.BookPageInputDto;
+import com.bookstore.app.domain.RegisterInputDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -26,7 +27,7 @@ public class ValidationTest {
     }
 
     @Test
-    public void testBookPageInputDto(){
+    public void testBookPageInputDto() {
         BookPageInputDto bookPageInputDto = BookPageInputDto.builder()
                 .pageNumber(new BigDecimal(1))
                 .pageSize(new BigDecimal(5))
@@ -128,5 +129,197 @@ public class ValidationTest {
         assertEquals(violations.size(), 1);
         assertEquals(violations.iterator().next().getMessage(), "Wrong format of page size: only 2 digits " +
                 "are allowed(not decimals)");
+    }
+
+    @Test
+    public void testRegisterInputDto() {
+        RegisterInputDto registerInputDto = RegisterInputDto.builder()
+                .email("fred.milton@gmail.com")
+                .firstName("Fred")
+                .lastName("Milton")
+                .password("Fredmil123%")
+                .build();
+        Set<ConstraintViolation<RegisterInputDto>> violations = validator.validate(registerInputDto);
+        assertTrue(violations.isEmpty());
+
+        //firstName null
+        registerInputDto.setFirstName(null);
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Firstname can not be null, empty or blank");
+
+        //firstName empty
+        registerInputDto.setFirstName("");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Firstname can not be null, empty or blank");
+
+        //firstName blank
+        registerInputDto.setFirstName(" ");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Firstname can not be null, empty or blank");
+
+        registerInputDto.setFirstName("Fred");
+
+        //lastName null
+        registerInputDto.setLastName(null);
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Lastname can not be null, empty or blank");
+
+        //lastName empty
+        registerInputDto.setLastName("");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Lastname can not be null, empty or blank");
+
+        //lastName blank
+        registerInputDto.setLastName(" ");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Lastname can not be null, empty or blank");
+
+        registerInputDto.setLastName("Milton");
+
+        //email null
+        registerInputDto.setEmail(null);
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email can not be null, empty or blank");
+
+        //email empty
+        registerInputDto.setEmail("");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 2);
+        violations.forEach(violation -> {
+            assertTrue(violation.getMessage().equals("Email can not be null, empty or blank")
+                    || violation.getMessage().equals("Email is not valid"));
+        });
+
+        //email blank
+        registerInputDto.setEmail(" ");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 2);
+        violations.forEach(violation -> {
+            assertTrue(violation.getMessage().equals("Email can not be null, empty or blank")
+                    || violation.getMessage().equals("Email is not valid"));
+        });
+
+        //email wrong pattern
+        registerInputDto.setEmail("1fred.milton@gmail.com");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email is not valid");
+
+        //email wrong pattern
+        registerInputDto.setEmail("fred.milton@gmail.com.");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email is not valid");
+
+        //email wrong pattern
+        registerInputDto.setEmail("fred.milton@gmail.com2");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email is not valid");
+
+        //email wrong pattern
+        registerInputDto.setEmail("fred..milton@gmail.com");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email is not valid");
+
+        //email wrong pattern
+        registerInputDto.setEmail("fred.miltongmail.com");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Email is not valid");
+
+        registerInputDto.setEmail("fred.milton@gmail.com");
+
+        //password null
+        registerInputDto.setPassword(null);
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password can not be null, empty or blank");
+
+        //password empty
+        registerInputDto.setPassword("");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 2);
+        violations.forEach(violation -> {
+            assertTrue(violation.getMessage().equals("Password can not be null, empty or blank")
+                    || violation.getMessage().equals("Password format is not valid"));
+        });
+
+        //password blank
+        registerInputDto.setPassword(" ");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 2);
+        violations.forEach(violation -> {
+            assertTrue(violation.getMessage().equals("Password can not be null, empty or blank")
+                    || violation.getMessage().equals("Password format is not valid"));
+        });
+
+        //password wrong pattern
+        registerInputDto.setPassword("desfr123%gt");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
+
+        //password wrong pattern
+        registerInputDto.setPassword("AWSDE123%KIU");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
+
+        //password wrong pattern
+        registerInputDto.setPassword("AWSDEki%dews");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
+
+        //password wrong pattern
+        registerInputDto.setPassword("A1%dews");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
+
+        //password wrong pattern
+        registerInputDto.setPassword("A1%dews3245rfgtyuhyDEWS%%%12345");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "The maximum size for the password is 20 " +
+                "characters");
+
+        //password wrong pattern
+        registerInputDto.setPassword("A13456ydews");
+        violations = validator.validate(registerInputDto);
+        assertFalse(violations.isEmpty());
+        assertEquals(violations.size(), 1);
+        assertEquals(violations.iterator().next().getMessage(), "Password format is not valid");
     }
 }
