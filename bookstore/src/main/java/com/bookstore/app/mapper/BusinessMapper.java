@@ -2,8 +2,10 @@ package com.bookstore.app.mapper;
 
 import com.bookstore.app.business.BookBusiness;
 import com.bookstore.app.business.BookPageBusiness;
+import com.bookstore.app.business.UserBusiness;
 import com.bookstore.app.entity.AuthorEntity;
 import com.bookstore.app.entity.BookEntity;
+import com.bookstore.app.entity.UserEntity;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 
@@ -32,6 +34,8 @@ public interface BusinessMapper {
             builder.content(Collections.emptyList());
         }
     }
+
+    UserBusiness toUserBusiness(UserEntity userEntity);
 
     private static String getName(final BookEntity bookEntity) {
         return bookEntity.getAuthor() != null ? concatenateName(bookEntity.getAuthor()) : null;
