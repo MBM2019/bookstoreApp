@@ -18,7 +18,7 @@ public class RegisterInputDto {
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     private String email;
     @NotBlank(message = "Password can not be null, empty or blank")
-    @Pattern(message = "Password format is not valid", regexp = "^(?:(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*)[^\\s]{8,}$")
+    @Pattern(message = "Password format is not valid", regexp = "^(?:(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*?]).*)[^\\s]{8,}$")
     @Size(max = 20, message = "The maximum size for the password is 20 characters")
     private String password;
 
