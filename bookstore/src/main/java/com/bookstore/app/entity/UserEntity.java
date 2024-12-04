@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.UUID;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "users")
@@ -23,4 +21,6 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "password")
     private String password;
 
+    /*@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartShopEntity> cartShopEntityList;*/
 }

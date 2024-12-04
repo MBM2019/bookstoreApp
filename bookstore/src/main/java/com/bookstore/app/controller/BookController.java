@@ -3,13 +3,11 @@ package com.bookstore.app.controller;
 import com.bookstore.app.domain.BookPageDto;
 import com.bookstore.app.domain.BookPageInputDto;
 import com.bookstore.app.mapper.DomainMapper;
-import com.bookstore.app.service.BookService;
+import com.bookstore.app.service.impl.BookServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @Validated
 @RestController
@@ -17,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+    private final BookServiceImpl bookServiceImpl;
     private final DomainMapper domainMapper;
 
     /**
@@ -32,7 +30,7 @@ public class BookController {
      */
     @PostMapping(value = "/list")
     public BookPageDto getBookPage(@RequestBody @Valid BookPageInputDto bookPageInputDto) {
-        return domainMapper.toBookPageDto(bookService.retrieveBooksPage(domainMapper.toBookPageInputBusiness(
+        return domainMapper.toBookPageDto(bookServiceImpl.retrieveBooksPage(domainMapper.toBookPageInputBusiness(
                 bookPageInputDto)));
     }
 }

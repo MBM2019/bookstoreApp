@@ -3,7 +3,6 @@ package com.bookstore.app.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -15,11 +14,11 @@ public class CartShopEntity extends AbstractEntity {
     @Column(name = "order_price", nullable = false)
     private double orderPrice;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "customer", referencedColumnName = "id")
+/*    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "users", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private CustomerEntity customer;
+    private UserEntity users;*/
 
     @OneToMany(mappedBy = "cartShop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItemEntity> cartItemEntityList;

@@ -5,6 +5,7 @@ import com.bookstore.app.entity.BookEntity;
 import com.bookstore.app.mapper.BusinessMapper;
 import com.bookstore.app.mapper.BusinessMapperImpl;
 import com.bookstore.app.repository.BookRepository;
+import com.bookstore.app.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,16 +21,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class BookServiceTest {
+public class BookServiceImplTest {
 
     @Mock
     private BookRepository bookRepository;
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
 
     @BeforeEach
     public void setup() {
         BusinessMapper businessMapper = new BusinessMapperImpl();
-        bookService = new BookService(bookRepository, businessMapper);
+        bookServiceImpl = new BookServiceImpl(bookRepository, businessMapper);
     }
 
     @Test
@@ -42,6 +43,6 @@ public class BookServiceTest {
                 .pageNumber(0)
                 .pageSize(5)
                 .build();
-        assertNotNull(bookService.retrieveBooksPage(bookPageInputBusiness));
+        assertNotNull(bookServiceImpl.retrieveBooksPage(bookPageInputBusiness));
     }
 }

@@ -1,5 +1,7 @@
 package com.bookstore.app.errorhandling;
 
+import com.bookstore.app.exception.ExistingUsernameException;
+import com.bookstore.app.exception.UserNotCreatedException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,16 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
+
+    @ExceptionHandler(ExistingUsernameException.class)
+    public ResponseEntity<String> handleExistingUsernameException(ExistingUsernameException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserNotCreatedException.class)
+    public ResponseEntity<String> handleUserNotCreatedException(UserNotCreatedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_IMPLEMENTED);
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException constraintViolationException) {
