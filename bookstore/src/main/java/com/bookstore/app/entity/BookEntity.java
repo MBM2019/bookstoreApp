@@ -13,7 +13,7 @@ public class BookEntity extends AbstractEntity {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "author", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

@@ -13,13 +13,15 @@ public class CartItemEntity extends AbstractEntity {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_shop", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private CartShopEntity cartShop;
 
-    @OneToOne(cascade={CascadeType.PERSIST} , fetch = FetchType.LAZY)
-    @JoinColumn(name="id", unique = true)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book", referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private BookEntity book;
 }

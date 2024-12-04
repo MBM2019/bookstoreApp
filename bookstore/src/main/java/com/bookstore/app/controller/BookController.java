@@ -3,7 +3,7 @@ package com.bookstore.app.controller;
 import com.bookstore.app.domain.BookPageDto;
 import com.bookstore.app.domain.BookPageInputDto;
 import com.bookstore.app.mapper.DomainMapper;
-import com.bookstore.app.service.impl.BookServiceImpl;
+import com.bookstore.app.service.BookService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class BookController {
 
-    private final BookServiceImpl bookServiceImpl;
+    private final BookService bookService;
     private final DomainMapper domainMapper;
+
 
     /**
      * Retrieval of a page containing the existing books
@@ -30,7 +31,7 @@ public class BookController {
      */
     @PostMapping(value = "/list")
     public BookPageDto getBookPage(@RequestBody @Valid BookPageInputDto bookPageInputDto) {
-        return domainMapper.toBookPageDto(bookServiceImpl.retrieveBooksPage(domainMapper.toBookPageInputBusiness(
+        return domainMapper.toBookPageDto(bookService.retrieveBooksPage(domainMapper.toBookPageInputBusiness(
                 bookPageInputDto)));
     }
 }

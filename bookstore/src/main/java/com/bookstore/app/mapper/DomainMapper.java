@@ -1,13 +1,7 @@
 package com.bookstore.app.mapper;
 
-import com.bookstore.app.business.BookPageBusiness;
-import com.bookstore.app.business.BookPageInputBusiness;
-import com.bookstore.app.business.RegisterInputBusiness;
-import com.bookstore.app.business.UserBusiness;
-import com.bookstore.app.domain.BookPageDto;
-import com.bookstore.app.domain.BookPageInputDto;
-import com.bookstore.app.domain.RegisterInputDto;
-import com.bookstore.app.domain.UserDto;
+import com.bookstore.app.business.*;
+import com.bookstore.app.domain.*;
 import org.mapstruct.*;
 
 import java.math.BigDecimal;
@@ -37,6 +31,10 @@ public interface DomainMapper {
     RegisterInputBusiness toRegisterInputBusiness(RegisterInputDto registerInputDto);
 
     UserDto toUserDto(UserBusiness userBusiness);
+
+    CheckOutInputBusiness toCheckOutInputBusiness(CheckOutInputDto checkOutInputDto);
+
+    CartItemInputBusiness toCartItemInputBusiness(CartItemInputDto cartItemInputDto);
 
     private static int mapPageNumber(BigDecimal pageNumber) {
         return pageNumber.intValue() - 1;
