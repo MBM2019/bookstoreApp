@@ -64,7 +64,7 @@ public class WebSecurityConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
-                        .allowedOrigins("http://localhost:3001");
+                        .allowedOrigins("http://localhost:3000");
             }
         };
     }
