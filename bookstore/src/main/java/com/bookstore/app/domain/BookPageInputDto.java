@@ -19,7 +19,7 @@ public class BookPageInputDto {
     private BigDecimal pageNumber;
     @NotNull(message = "Page size can not be null")
     @Positive(message = "Page size cannot be neither negative nor zero")
-    @Max(value = 10, message = "The maximum value for the page size is 10")
+    @Max(value = 14, message = "The maximum value for the page size is 14")
     @Digits(integer = 2, fraction = 0, message = "Wrong format of page size: only 2 digits are allowed(not decimals)")
     private BigDecimal pageSize;
 }

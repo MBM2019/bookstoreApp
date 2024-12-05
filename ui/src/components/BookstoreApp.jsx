@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import LoginComponent from './LoginComponent';
 import LogoutComponent from './LogoutComponent';
 import SigninComponent from './SigninComponent';
+import ShopComponent from './ShopComponent';
 
 function AuthenticatedRoute({children}) {
     const authContext = useAuth()
@@ -25,6 +26,11 @@ export default function BookstoreApp() {
                         <Route path='/' element={ <LoginComponent /> } />
                         <Route path='/login' element={ <LoginComponent /> } />
                         <Route path='/signin' element={ <SigninComponent /> } />
+                        <Route path='/shop' element={
+                            <AuthenticatedRoute>
+                                <ShopComponent />
+                            </AuthenticatedRoute>
+                        } />
                         <Route path="/shop" />
                         <Route path="/cart" />
                         <Route path='/logout' element={

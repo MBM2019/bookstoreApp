@@ -110,12 +110,12 @@ public class ValidationTest {
         assertEquals(violations.size(), 1);
         assertEquals(violations.iterator().next().getMessage(), "Page size cannot be neither negative nor zero");
 
-        //pageSize higher than 10
-        bookPageInputDto.setPageSize(BigDecimal.valueOf(12));
+        //pageSize higher than 14
+        bookPageInputDto.setPageSize(BigDecimal.valueOf(15));
         violations = validator.validate(bookPageInputDto);
         assertFalse(violations.isEmpty());
         assertEquals(violations.size(), 1);
-        assertEquals(violations.iterator().next().getMessage(), "The maximum value for the page size is 10");
+        assertEquals(violations.iterator().next().getMessage(), "The maximum value for the page size is 14");
 
         //pageSize containing more than 2 digits
         bookPageInputDto.setPageSize(BigDecimal.valueOf(129));
@@ -124,7 +124,7 @@ public class ValidationTest {
         assertEquals(violations.size(), 2);
         violations.forEach(violation -> {
             assertTrue(violation.getMessage().equals("Wrong format of page size: only 2 digits are allowed" +
-                    "(not decimals)") || violation.getMessage().equals("The maximum value for the page size is 10"));
+                    "(not decimals)") || violation.getMessage().equals("The maximum value for the page size is 14"));
         });
 
         //pageSize containing decimals
