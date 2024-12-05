@@ -69,3 +69,11 @@ HOW TO RUN THE APPLICATION:
 _ Clone the project bookstoreApp in your machine. 
 _ With the command line move to bookstoreApp/bookstore and execute: mvn spring-boot:run
 _ After that the 4 endpoints described above will be ready to be used for example by Postman.
+
+Note: The project also contains a ui directory that is still in development.
+Anyway, you can execute the login, signin and retrieving the books using this React App (all the APIs but the checkout).
+To execute it:
+_ With the command line move to bookstoreApp/ui and execute the next commands:
+npm install
+npm start
+Then the application will be available in http://localhost:3000/
