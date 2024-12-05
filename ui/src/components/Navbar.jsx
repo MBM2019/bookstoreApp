@@ -18,7 +18,7 @@ export default function Navbar () {
             {!isAuthenticated && <Link to="/login"> Log in </Link>}
             {!isAuthenticated && <Link to="/signin"> Sign in </Link>}
             {isAuthenticated && <Link to="/shop"> Shop </Link>}
-            {isAuthenticated && <Link to="/logout"> Log out </Link>}
+            {isAuthenticated && <Link to="/logout" onClick={logout}> Log out </Link>}
             {isAuthenticated && <Link to="/cart"><ShoppingCart size={32} /></Link>}
         </div>
       </div>
