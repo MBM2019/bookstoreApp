@@ -1,5 +1,6 @@
 import {createContext, useContext, useState} from 'react';
 import {executeJwtAuthenticationService} from '../../api/AuthenticationApiService';
+import {executeUserRegistration} from '../../api/RegistrationApiService';
 import {apiClient} from '../../api/ApiClient';
 
 export const AuthContext = createContext()
@@ -9,6 +10,21 @@ export default function AuthProvider({children}) {
     const [isAuthenticated, setAuthenticated] = useState(false)
     const [username, setUsername] = useState(null)
     const [token, setToken] = useState(null)
+
+    async function register(firstname, lastname, username, password) {
+
+            try {
+                const response = await executeUserRegistration(firstname, lastname, username, password)
+                if(response.status === 201) {
+                    return true
+                } else {
+                    return false
+                }
+            } catch(error) {
+                return false
+            }
+        }
+
 
     async function login(username, password) {
 
@@ -50,7 +66,7 @@ export default function AuthProvider({children}) {
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, logout, username, token}}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout, username, token, register}}>
             {children}
         </AuthContext.Provider>
     )

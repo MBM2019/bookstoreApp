@@ -12,6 +12,7 @@ export default function Navbar () {
    function logout() {
        authContext.logout()
    }
+
    return (
       <div className="navbar">
         <div className="links">
